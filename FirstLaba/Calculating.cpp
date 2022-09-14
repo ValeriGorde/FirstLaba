@@ -45,7 +45,7 @@ string EnterText()
 }
 
 //ѕоиск подстроки в строке и вывод количество повторений
-void SearchStr(string text)
+int SearchStr(string text)
 {
 	string strForSearch = "";
 	int pos = 0;
@@ -77,6 +77,8 @@ void SearchStr(string text)
 		cout << " оличество повторений: " << count << endl;
 		cout << endl;
 	}
+
+	return count;
 }
 
 

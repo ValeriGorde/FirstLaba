@@ -21,7 +21,7 @@ enum YesOrNo
 
 enum FileOrKey
 {
-	key = 1, file
+	firstChoice = 1, secondChoice
 };
 
 //Прветствие
@@ -37,30 +37,72 @@ void Greetings()
 }
 
 //Выбор ввод с клавиатуры или с файла
-void ChooseInitialData()
+int ChooseInitialData()
 {
 	int variant = 0;
+	int result = 0;
+	bool check = true;
 
 	cout << "Выберите откуда будут считываться исходные данные:" << endl;
 	cout << "1. С клавиатуры." << endl;
 	cout << "2. С файла" << endl;
+
+	while (check)
+	{
+		variant = NumCheck();
+
+		switch (variant)
+		{
+		case firstChoice:
+		{
+			string text = EnterText();
+			result = SearchStr(text);
+			check = false;
+			return result;
+
+		}
+		case secondChoice:
+		{
+			OpenFromFile();
+			check = false;
+		}
+		default:
+		{
+			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+		}
+		}
+	}
+
+}
+
+
+void MenuSaveResults(int result)
+{
+	int variant = 0;
+	cout << "Сохранить результаты в файл?" << endl;
+	cout << "1. Да" << endl;
+	cout << "2. Нет" << endl;
+	cout << endl;
+
 	variant = NumCheck();
 
 	switch (variant)
 	{
-	case key:
+	case yes:
 	{
-		string text = EnterText();
-		SearchStr(text);
+		SaveInFile(result);
 		break;
-
 	}
-	case file:
+	case no:
 	{
-		OpenFromFile();
+		break;
+	}
+	default:
+	{
+		cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+	}
 	}
 
-	}
 }
 
 //Основное меню
@@ -68,6 +110,7 @@ void Menu()
 {
 	int variant = 0;
 	bool check = true;
+	int result = 0;
 
 
 	cout << "МЕНЮ" << endl;
@@ -78,15 +121,16 @@ void Menu()
 	cout << "4. Выйти из программы" << endl;
 	cout << endl;
 
-	variant = NumCheck();
-
 	while (check)
 	{
+		variant = NumCheck();
+
 		switch (variant)
 		{
 		case redo:
 		{
-			ChooseInitialData();
+			result = ChooseInitialData();
+			MenuSaveResults(result);
 			return Menu();
 		}
 
@@ -105,6 +149,11 @@ void Menu()
 			cout << "Программа завершена." << endl;
 			check = false;
 		}
+		default:
+		{
+			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+			check = true;
+		}
 		}
 	}
 
@@ -113,20 +162,3 @@ void Menu()
 
 
 
-bool MenuSaveResults()
-{
-	int variant = 0;
-	cout << "Сохранить результаты в файл?" << endl;
-	cout << "1. ДА" << endl;
-	cout << "2. НЕТ" << endl;
-	cout << endl;
-
-	variant = NumCheck();
-
-	switch (variant)
-	{
-	case yes: return true;
-	case no: return false;
-	}
-
-}
