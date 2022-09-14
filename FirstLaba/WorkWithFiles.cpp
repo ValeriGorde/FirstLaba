@@ -14,21 +14,57 @@ enum FileOrKey
 
 using namespace std;
 
-//Засунуть сюда все проверки!!!!!
-//bool CheckFilePath(string path)
-//{
-//	bool isExist = false;
-//	fstream file(path);
-//
-//	if (file.is_open())
-//	{
-//		isExist = true;
-//	}
-//	file.close();
-//
-//	return isExist;
-//
-//}
+//Проверка на существование файла
+bool ExistFile(string path)
+{
+	WIN32_FIND_DATA wfd;
+	LPCSTR pathLPC = path.c_str();
+	HANDLE hfind = ::FindFirstFile(pathLPC, &wfd);
+	if (INVALID_HANDLE_VALUE != hfind) {
+		::FindClose(hfind);
+		return true;
+	}
+	return false;
+}
+
+//Проверки на корректность файла
+bool FileCorrectChecking(string path) 
+{
+	int one = 1, four = 4;
+	size_t five = 5;
+	LPCSTR name = path.c_str();
+	WIN32_FIND_DATAA findData;
+	FindFirstFileA(name, &findData);
+
+	size_t found = path.find_last_of("\\");
+	size_t point = path.find_last_of(".");
+	size_t base = point - found - one;
+	string basefilenameStr = path.substr(found + one, base);
+	const char* basefilenameChar = basefilenameStr.c_str();
+
+	if (!_strcmpi(basefilenameChar, "con")) {
+		cout << endl << "Некорректное имя файла." << endl;
+		return false;
+	}
+	if (path.size() < five) {
+		cout << endl << "Некорректное имя файла. Требуется ввести расширение файла после названия" << endl;
+		return false;
+	}
+	if (path.substr(path.size() - four) != ".txt") {
+		cout << endl << "Некорректный формат файла. Необходим файл формата .txt" << endl;
+		return false;
+	}
+	if (findData.dwFileAttributes & FILE_ATTRIBUTE_READONLY)
+	{
+		cout << endl << "Файл доступен только для чтения." << endl;
+		return false;
+	}
+	if (!ExistFile(path)) {
+		cout << endl << "Файла по указанному пути не существует" << endl;
+		return false;
+	}
+	return true;
+}
 
 void OpenFromFile()
 {
@@ -47,15 +83,11 @@ void OpenFromFile()
 
 		fstream file(path);
 
-		int size = file.tellg();
-
-		if (file.peek() == EOF)
+		if (FileCorrectChecking(path) == false)
 		{
-			cout << "Файл пустой!" << endl;
-
+			check = true;
 		}
-
-		else if (file.is_open())
+		else
 		{
 			while (getline(file, str))
 			{
@@ -65,33 +97,13 @@ void OpenFromFile()
 			}
 			result = SearchStr(str);
 			check = false;
-		}
 
-		else
-		{
-			cout << "Файла не сущесвтует!" << endl;
+			file.close();
 		}
-		file.close();
 	}
-
-
 }
 
-//bool FileIsExist(string path) 
-//{
-//	bool isExist = false;
-//	fstream file(path.c_str());
-//
-//	if (file.is_open())
-//	{
-//		isExist = true;
-//	}
-//	file.close();
-//
-//	return isExist;
-//}
-
-
+//Проверка на пустоту файла
 bool FileNotEmpty(string path)
 {
 	bool isExist = false;
@@ -123,8 +135,7 @@ void SaveInFile(int result)
 		fstream file;
 		file.open(pathSave);
 
-
-		if (file.is_open())
+		if (FileCorrectChecking(pathSave) == true) 
 		{
 			if (FileNotEmpty(pathSave)) //если файл НЕ пуст
 			{
@@ -147,31 +158,24 @@ void SaveInFile(int result)
 					check = false;
 					break;
 				}
-				default: 
+				default:
 				{
 					cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
 				}
 				}
 			}
-			else
+			if (check == false)
 			{
 				file << "Количество повторений подстроки в строке: ";
 				file << result;
 				cout << endl << "Сохранение прошло успешно!" << endl;
 				cout << endl;
 				check = false;
+
+				file.close();
 			}
 		}
-		else cout << "Ошибка!" << endl;
 	}
-
-
 }
-
-
-
-
-void ReWriteInfo() {}
-void WriteInfoInFile() {}
 
 

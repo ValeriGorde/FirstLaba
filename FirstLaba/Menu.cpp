@@ -28,7 +28,7 @@ enum FileOrKey
 void Greetings()
 {
 	cout << "Данная программа представляет из себя текстовый редактор, в котором пользователь имеет возможность" << endl;
-	cout << "определить является ли подстрока какой-либо из строк в тексте." << endl;
+	cout << "определить является ли подстрока заданной строкой в тексте." << endl;
 	cout << "Автор: Гордеева Валерия" << endl;
 	cout << "Группа: 494" << endl;
 	cout << "Лабораторная работа №1" << endl;
@@ -78,30 +78,39 @@ int ChooseInitialData()
 
 void MenuSaveResults(int result)
 {
+	bool check = true;
 	int variant = 0;
 	cout << "Сохранить результаты в файл?" << endl;
 	cout << "1. Да" << endl;
 	cout << "2. Нет" << endl;
 	cout << endl;
 
-	variant = NumCheck();
+	while (check)
+	{
+		variant = NumCheck();
 
-	switch (variant)
-	{
-	case yes:
-	{
-		SaveInFile(result);
-		break;
+		switch (variant)
+		{
+		case yes:
+		{
+			SaveInFile(result);
+			check = false;
+			cout << endl;
+			break;
+		}
+		case no:
+		{
+			check = false;
+			cout << endl;
+			break;
+		}
+		default:
+		{
+			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+		}
+		}
 	}
-	case no:
-	{
-		break;
-	}
-	default:
-	{
-		cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
-	}
-	}
+
 
 }
 
@@ -148,11 +157,13 @@ void Menu()
 		{
 			cout << "Программа завершена." << endl;
 			check = false;
+			break;
 		}
 		default:
 		{
 			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
 			check = true;
+			break;
 		}
 		}
 	}
