@@ -1,1 +1,1 @@
- оличество повторений подстроки в строке: 96
+The number of repetitions of a substring in a string: 1

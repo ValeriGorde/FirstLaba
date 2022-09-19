@@ -66,9 +66,27 @@ bool FileCorrectChecking(string path)
 	return true;
 }
 
-void OpenFromFile()
+//Проверка на пустоту файла
+bool FileNotEmpty(string path)
+{
+	bool isExist = false;
+	fstream file(path.c_str());
+
+	if (!(file.peek() == EOF))
+	{
+		cout << "Файл не пустой!" << endl;
+		cout << endl;
+		isExist = true;
+	}
+	file.close();
+
+	return isExist;
+}
+
+int OpenFromFile()
 {
 	string path = "";
+	string text = "";
 	string str = "";
 	int result = 0;
 	bool check = true;
@@ -87,42 +105,33 @@ void OpenFromFile()
 		{
 			check = true;
 		}
+		else if (FileNotEmpty(path) == false) //если файл НЕ пуст
+		{
+			cout << "Файл пустой!" << endl;
+			check = true;
+		}
 		else
 		{
-			while (getline(file, str))
+			while (getline(file, text))
 			{
 				cout << endl << "Данные в файле: " << endl;
-				cout << str << endl;
+				cout << text << endl;
 				cout << endl;
 			}
-			result = SearchStr(str);
+			str = EnterText();
+			result = SearchStr(text, str);
 			check = false;
 
 			file.close();
 		}
 	}
+	return result;
 }
 
-//Проверка на пустоту файла
-bool FileNotEmpty(string path)
-{
-	bool isExist = false;
-	fstream file(path.c_str());
-
-	if (!(file.peek() == EOF))
-	{
-		cout << "Файл не пустой!" << endl;
-		cout << endl;
-		isExist = true;
-	}
-	file.close();
-
-	return isExist;
-}
 
 //Сохранение резулатов в файл
 void SaveInFile(int result)
-{
+	{
 	string pathSave = "";
 	bool check = true;
 
@@ -133,10 +142,11 @@ void SaveInFile(int result)
 		cin >> pathSave;
 
 		fstream file;
-		file.open(pathSave);
+		/*file.open(pathSave);*/
 
 		if (FileCorrectChecking(pathSave) == true) 
 		{
+			check = false;
 			if (FileNotEmpty(pathSave)) //если файл НЕ пуст
 			{
 				int variant = 0;
@@ -158,15 +168,12 @@ void SaveInFile(int result)
 					check = false;
 					break;
 				}
-				default:
-				{
-					cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
-				}
 				}
 			}
 			if (check == false)
 			{
-				file << "Количество повторений подстроки в строке: ";
+				file.open(pathSave);
+				file << "The number of repetitions of a substring in a string: ";
 				file << result;
 				cout << endl << "Сохранение прошло успешно!" << endl;
 				cout << endl;

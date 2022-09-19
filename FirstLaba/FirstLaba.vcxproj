@@ -131,11 +131,13 @@
     <ClCompile Include="Calculating.cpp" />
     <ClCompile Include="FirstLaba.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Testing.cpp" />
     <ClCompile Include="WorkWithFiles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculating.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Testing.h" />
     <ClInclude Include="WorkWithFiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

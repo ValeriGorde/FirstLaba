@@ -6,6 +6,7 @@
 
 #include "Calculating.h"
 #include "WorkWithFiles.h"
+#include "Testing.h"
 
 using namespace std;
 
@@ -41,6 +42,7 @@ int ChooseInitialData()
 {
 	int variant = 0;
 	int result = 0;
+	int endNum = 0;
 	bool check = true;
 
 	cout << "Выберите откуда будут считываться исходные данные:" << endl;
@@ -56,22 +58,28 @@ int ChooseInitialData()
 		case firstChoice:
 		{
 			string text = EnterText();
-			result = SearchStr(text);
+			string str = EnterText();
+			endNum = SearchStr(text, str);
+			cout << "Количество повторений: " << endNum << endl;
 			check = false;
-			return result;
+			break;
 
 		}
 		case secondChoice:
 		{
-			OpenFromFile();
+			endNum = OpenFromFile();
 			check = false;
+			break;
 		}
 		default:
 		{
 			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+			break;
 		}
 		}
 	}
+
+	return endNum;
 
 }
 
@@ -151,6 +159,7 @@ void Menu()
 		}
 		case test:
 		{
+			TestingResults();
 			return Menu();
 		}
 		case finish:

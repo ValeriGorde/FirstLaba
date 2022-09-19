@@ -1,28 +1,20 @@
 ﻿#include <iostream>
-#include <string>
-#include <Windows.h>
+#include <cstdlib>
 
-#include <fstream>
-#include <iostream>
-
-
+#include <windows.h>
 #include "Menu.h"
 #include "Calculating.h"
-#include "WorkWithFiles.h"
 
 using namespace std;
 
 int main()
 {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
+    setlocale(LC_ALL, "Russian");
 
-
-    //OpenFromFile();
+    
 
     Menu();
 
-    /*MainFun();*/
 
     system("pause");
     return 0;

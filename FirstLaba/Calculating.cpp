@@ -24,10 +24,12 @@ string StringCheck()
 {
 	string str;
 	bool check = true;
+	char ch = 0;
 
 	do {
 		getline(cin, str);
 	} while (str == "");
+
 
 	return str;
 }
@@ -44,25 +46,21 @@ string EnterText()
 	return text;
 }
 
+
 //Поиск подстроки в строке и вывод количество повторений
-int SearchStr(string text)
+int SearchStr(string text, string enterStr)
 {
-	string strForSearch = "";
 	int pos = 0;
 	int start = 0;
 	int count = 0;
 	bool check = true;
 
-	cout << "Введите строку для поиска." << endl;
-	strForSearch = StringCheck();
-	cout << endl;
-
 	while (true)
 	{
-		pos = text.find(strForSearch.c_str(), start);
+		pos = text.find(enterStr.c_str(), start);
 		if (pos != -1)
 		{
-			start = pos + strForSearch.size();
+			start = pos + enterStr.size();
 			count++;
 		}
 		else
@@ -72,18 +70,8 @@ int SearchStr(string text)
 	{
 		cout << "Данная подстрока не встречается в ведённом тексте!" << endl;
 	}
-	else
-	{
-		cout << "Количество повторений: " << count << endl;
-		cout << endl;
-	}
 
 	return count;
 }
 
 
-void MainFun()
-{
-	string text = EnterText();
-	SearchStr(text);
-}

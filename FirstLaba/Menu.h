@@ -2,5 +2,4 @@
 void Greetings();
 void Menu();
 void ChooseInitialData();
-void MenuSaveResults();
-void OpenFile();
+void MenuSaveResults(int result);
