@@ -11,10 +11,7 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    
-
     Menu();
-
 
     system("pause");
     return 0;

@@ -28,8 +28,8 @@ enum FileOrKey
 //Прветствие
 void Greetings()
 {
-	cout << "Данная программа представляет из себя текстовый редактор, в котором пользователь имеет возможность" << endl;
-	cout << "определить является ли подстрока заданной строкой в тексте." << endl;
+	cout << "Данная программа представляет из себя текстовый редактор, в котором пользователь" << endl;
+	cout << "имеет возможность определить является ли подстрока заданной строкой в тексте." << endl;
 	cout << "Автор: Гордеева Валерия" << endl;
 	cout << "Группа: 494" << endl;
 	cout << "Лабораторная работа №1" << endl;
@@ -57,8 +57,13 @@ int ChooseInitialData()
 		{
 		case firstChoice:
 		{
+			cout << "Введите текст:" << endl;
+			cout << "Чтобы завершить ввод текста, нажмите Enter дважды." << endl << endl;
 			string text = EnterText();
+
+			cout << "Введите подстроку для поиска:" << endl;
 			string str = EnterText();
+
 			endNum = SearchStr(text, str);
 			cout << "Количество повторений: " << endNum << endl;
 			check = false;
@@ -68,6 +73,7 @@ int ChooseInitialData()
 		case secondChoice:
 		{
 			endNum = OpenFromFile();
+			cout << "Количество повторений: " << endNum << endl;
 			check = false;
 			break;
 		}
@@ -78,9 +84,7 @@ int ChooseInitialData()
 		}
 		}
 	}
-
 	return endNum;
-
 }
 
 
@@ -115,11 +119,10 @@ void MenuSaveResults(int result)
 		default:
 		{
 			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+			break;
 		}
 		}
 	}
-
-
 }
 
 //Основное меню
@@ -128,7 +131,6 @@ void Menu()
 	int variant = 0;
 	bool check = true;
 	int result = 0;
-
 
 	cout << "МЕНЮ" << endl;
 	cout << "Выберите нужный пункт:" << endl;
@@ -176,8 +178,6 @@ void Menu()
 		}
 		}
 	}
-
-
 }
 
 

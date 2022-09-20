@@ -28,7 +28,7 @@ bool ExistFile(string path)
 }
 
 //Проверки на корректность файла
-bool FileCorrectChecking(string path) 
+bool FileCorrectChecking(string path)
 {
 	int one = 1, four = 4;
 	size_t five = 5;
@@ -90,6 +90,7 @@ int OpenFromFile()
 	string str = "";
 	int result = 0;
 	bool check = true;
+	string fullText = "";
 
 	while (check)
 	{
@@ -112,14 +113,15 @@ int OpenFromFile()
 		}
 		else
 		{
+			cout << endl << "Данные в файле: " << endl;
 			while (getline(file, text))
 			{
-				cout << endl << "Данные в файле: " << endl;
+				fullText += text + ' ';
 				cout << text << endl;
-				cout << endl;
 			}
+			cout << endl << "Введите строку для поиска!" << endl;
 			str = EnterText();
-			result = SearchStr(text, str);
+			result = SearchStr(fullText, str);
 			check = false;
 
 			file.close();
@@ -131,7 +133,7 @@ int OpenFromFile()
 
 //Сохранение резулатов в файл
 void SaveInFile(int result)
-	{
+{
 	string pathSave = "";
 	bool check = true;
 
@@ -144,7 +146,7 @@ void SaveInFile(int result)
 		fstream file;
 		/*file.open(pathSave);*/
 
-		if (FileCorrectChecking(pathSave) == true) 
+		if (FileCorrectChecking(pathSave) == true)
 		{
 			check = false;
 			if (FileNotEmpty(pathSave)) //если файл НЕ пуст
