@@ -37,6 +37,38 @@ void Greetings()
 	cout << endl;
 }
 
+void SaveOrNot(string& text, string& str)
+{
+	int variant = 0;
+	bool check = true;
+
+	cout << "Вы хотите сохранить исходные данные в файл?" << endl;
+	cout << "1. Да" << endl;
+	cout << "2. Нет" << endl;
+
+	while (check)
+	{
+		variant = NumCheck();
+		switch (variant)
+		{
+		case 1:
+		{
+			SaveInitialInFile(text, str);
+			check = false;
+			break;
+		}
+		case 2:
+		{
+			check = false;
+			break;
+		}
+		default:
+			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+			break;
+		}
+	}
+}
+
 //Выбор ввод с клавиатуры или с файла
 int ChooseInitialData()
 {
@@ -59,34 +91,34 @@ int ChooseInitialData()
 		{
 			cout << "Введите текст:" << endl;
 			cout << "Чтобы завершить ввод текста, нажмите Enter дважды." << endl << endl;
-			string text = EnterText();
+			string text = StringCheck();
 
 			cout << "Введите подстроку для поиска:" << endl;
-			string str = EnterText();
+			string str = StringCheck();
+
+			SaveOrNot(text, str);
 
 			endNum = SearchStr(text, str);
-			cout << "Количество повторений: " << endNum << endl;
+			cout << "Количество повторений: " << endNum << " раз." << endl << endl;
 			check = false;
 			break;
-
 		}
 		case secondChoice:
 		{
 			endNum = OpenFromFile();
-			cout << "Количество повторений: " << endNum << endl;
+			cout << "Количество повторений: " << endNum << " раз." << endl << endl;
 			check = false;
 			break;
 		}
 		default:
 		{
-			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl;
+			cout << "Вы ввели неверное значение, попробуйте ещё раз!" << endl << endl;
 			break;
 		}
 		}
 	}
 	return endNum;
 }
-
 
 void MenuSaveResults(int result)
 {

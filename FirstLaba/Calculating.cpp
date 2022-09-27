@@ -19,6 +19,18 @@ int NumCheck()
 	return num;
 }
 
+string EnterStr()
+{
+	string str = "";
+
+	do
+	{
+		getline(cin, str);
+	} while (str == "");
+
+	return str;
+}
+
 //Проверка для ввода строк
 string StringCheck()
 {
@@ -31,7 +43,7 @@ string StringCheck()
 	while (true) {
 		getline(cin, buffer);
 		if (buffer != "\0")
-			str += buffer;
+			str = str + buffer + "\n";
 		else {
 			if (str.size() == false) {
 				if (firstTry == true)
@@ -49,17 +61,6 @@ string StringCheck()
 		}
 	}
 	return str;
-}
-
-//Ввод текста в строку
-string EnterText()
-{
-	string text = "";
-
-	text = StringCheck();
-	cout << endl;
-
-	return text;
 }
 
 //Поиск подстроки в строке и вывод количество повторений
@@ -81,7 +82,6 @@ int SearchStr(string text, string enterStr)
 		}
 		else
 			break;
-
 	}
 	if (count == 0)
 	{

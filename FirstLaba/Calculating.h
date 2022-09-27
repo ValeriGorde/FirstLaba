@@ -5,5 +5,5 @@ using namespace std;
 
 int NumCheck();
 string StringCheck();
-string EnterText();
+string EnterStr();
 int SearchStr(string text, string str);

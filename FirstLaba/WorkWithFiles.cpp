@@ -59,10 +59,6 @@ bool FileCorrectChecking(string path)
 		cout << endl << "Файл доступен только для чтения." << endl;
 		return false;
 	}
-	if (!ExistFile(path)) {
-		cout << endl << "Файла по указанному пути не существует" << endl;
-		return false;
-	}
 	return true;
 }
 
@@ -74,6 +70,7 @@ bool FileNotEmpty(string path)
 
 	if (!(file.peek() == EOF))
 	{
+		cout << endl;
 		cout << "Файл не пустой!" << endl;
 		cout << endl;
 		isExist = true;
@@ -106,6 +103,10 @@ int OpenFromFile()
 		{
 			check = true;
 		}
+		else if (!ExistFile(path)) {
+			cout << endl << "Файла по указанному пути не существует" << endl;
+			check = false;
+		}
 		else if (FileNotEmpty(path) == false) //если файл НЕ пуст
 		{
 			cout << "Файл пустой!" << endl;
@@ -120,7 +121,7 @@ int OpenFromFile()
 				cout << text << endl;
 			}
 			cout << endl << "Введите строку для поиска!" << endl;
-			str = EnterText();
+			str = EnterStr();
 			result = SearchStr(fullText, str);
 			check = false;
 
@@ -130,26 +131,35 @@ int OpenFromFile()
 	return result;
 }
 
-
-//Сохранение резулатов в файл
-void SaveInFile(int result)
+void SaveInitialInFile(string& text, string& str)
 {
 	string pathSave = "";
 	bool check = true;
+	bool alreadySave = true;
 
 	while (check)
 	{
-		cout << "Куда сохранить результат?" << endl;
-
+		cout << endl;
+		cout << "Куда сохранить данные?" << endl;
 		cin >> pathSave;
-
-		fstream file;
-		/*file.open(pathSave);*/
+		ofstream file;
 
 		if (FileCorrectChecking(pathSave) == true)
 		{
 			check = false;
-			if (FileNotEmpty(pathSave)) //если файл НЕ пуст
+
+			if (!ExistFile(pathSave)) {
+				ofstream newFile(pathSave);
+				newFile << text << endl;
+				newFile << str;
+				cout << endl << "Сохранение прошло успешно!" << endl;
+				cout << endl;
+				check = false;
+				alreadySave = false;
+				newFile.close();
+			}
+
+			else if (FileNotEmpty(pathSave)) //если файл НЕ пуст
 			{
 				int variant = 0;
 
@@ -172,17 +182,88 @@ void SaveInFile(int result)
 				}
 				}
 			}
-			if (check == false)
+			if (check == false && alreadySave == true)
 			{
 				file.open(pathSave);
-				file << "The number of repetitions of a substring in a string: ";
-				file << result;
+				file << text << endl;;
+				file << str;
 				cout << endl << "Сохранение прошло успешно!" << endl;
 				cout << endl;
 				check = false;
 
 				file.close();
 			}
+		}
+	}
+}
+
+//Сохранение резулатов в файл
+void SaveInFile(int result)
+{
+	string pathSave = "";
+	bool check = true;
+	bool alreadySave = true;
+
+	while (check)
+	{
+		cout << "Куда сохранить результат?" << endl;
+
+		cin >> pathSave;
+
+		fstream file;
+		/*file.open(pathSave);*/
+
+		if (FileCorrectChecking(pathSave) == true)
+		{
+			check = false;
+
+			if (!ExistFile(pathSave)) {
+				ofstream newFile(pathSave);
+				newFile << "The number of repetitions of a substring in a string: ";
+				newFile << result;
+				cout << endl << "Сохранение прошло успешно!" << endl;
+				cout << endl;
+				check = false;
+				alreadySave = false;
+				newFile.close();
+			}
+
+
+			else if (FileNotEmpty(pathSave)) //если файл НЕ пуст
+			{
+				int variant = 0;
+
+				cout << "Выберите дальнейшие действия: " << endl;
+				cout << "1. Указать путь к другому файлу." << endl;
+				cout << "2. Перезаписать файл." << endl;
+				variant = NumCheck();
+
+				switch (variant)
+				{
+				case firstChoice:
+				{
+					check = true;
+					break;
+				}
+				case secondChoice:
+				{
+					check = false;
+					break;
+				}
+				}
+			}
+			if (check == false && alreadySave == true)
+			{
+				file.open(pathSave);
+				file << "The number of repetitions of a substring in a string: ";
+				file << result;
+				cout << endl << "Сохранение прошло успешно!" << endl << endl;
+				cout << endl;
+				check = false;
+
+				file.close();
+			}
+
 		}
 	}
 }
